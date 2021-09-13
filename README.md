@@ -33,6 +33,6 @@ or
 python OnshapeSpikeMonitor.py
 ```
 
-If you see an output saying "resource busy", unplug and replug the usb chord, then run the script again. If the script does not execute the first time, try again.
+If you see an output saying "resource busy", unplug and replug the usb cord, then run the script again. If the script does not execute the first time, try again.
 
 You can stop execution of the script at any time by pressing Control-C.
