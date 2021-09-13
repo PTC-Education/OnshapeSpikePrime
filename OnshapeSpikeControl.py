@@ -2,9 +2,6 @@ from OnshapePlus import *
 
 ## Initialize connection to Spike
 port = serial_ports()
-print('port: ')
-print(port)
-
 
 def serial_write(string):
     ser.write(string + b'\r\n')
@@ -55,7 +52,7 @@ serial_write(b'from hub import port')
 ##
 ## Config Client
 try:
-    exec(open('../../apikeys.py').read())
+    exec(open('../apikeys.py').read())
     base = 'https://cad.onshape.com'
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
@@ -83,6 +80,9 @@ except:
         print('client configured')
 
 url = input('What is the url of your Onshape assembly? ')
+
+## Bug - url input does not continue after copy paste. placeholder fix for now
+placeholder = input('Press enter to begin configuring bindings to Spike Prime')
 
 defaultPorts = input('Is your motor in port A? [y/n]: ')
 if defaultPorts == "y":
