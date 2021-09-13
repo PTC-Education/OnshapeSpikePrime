@@ -158,5 +158,6 @@ try:
             setMates(client,url,base,{'mateValues':[setMateJSON]})
             time.sleep(1)
 except KeyboardInterrupt:
-    controlString = 'hub.port.'+motor1Port+'.pwm(0)'
-    serial_write(controlString.encode())
+    pass
+    # controlString = 'hub.port.'+motor1Port+'.pwm(0)'
+    # serial_write(controlString.encode())
