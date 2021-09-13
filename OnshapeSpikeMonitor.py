@@ -159,7 +159,7 @@ try:
                             setMateJSON['translationZ'] = translate(monitorValue[0],0,100,0,1)
                 setMates(client,url,base,{'mateValues':[setMateJSON]})
             except:
-                pass
+                print('ultrasonic sensor did not give a value')
             time.sleep(1)
 except KeyboardInterrupt:
     pass
