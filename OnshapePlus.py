@@ -37,7 +37,6 @@ def serial_ports():
         try:
             s = serial.Serial(port)
             s.close()
-            print(port)
             result.append(port)
         except (OSError, serial.SerialException):
             pass
