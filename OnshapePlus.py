@@ -86,10 +86,10 @@ def getMates(client,url,base):
 def setMates(client,url,base,body):
     fixed_url = '/api/assemblies/d/did/w/wid/e/eid/matevalues'
     element = OnshapeElement(url)
-    method = 'GET'
+    method = 'POST'
 
     params = {}
-    payload = {}
+    payload = body
     headers = {'Accept': 'application/vnd.onshape.v2+json',
                 'Content-Type': 'application/vnd.onshape.v2+json'}
 

@@ -8,7 +8,20 @@ def serial_write(string):
     ser.write(string + b'\r\n')
     time.sleep(0.1)
     while ser.in_waiting:  
-        print(ser.read(ser.in_waiting).decode())
+        # print(ser.read(ser.in_waiting).decode())
+        response = ser.read(ser.in_waiting).decode()
+    result = []
+    for s in response.split():
+        num = ''
+        for x in s:
+            # print(x)
+            if x.isdigit() or x == "-":
+                num += x
+        if len(num) > 0:
+            result.append(int(num))
+    if result == []:
+        print(response)
+    return result
 
 try:
     ser = serial.Serial(
@@ -48,7 +61,6 @@ while ser.in_waiting:
 
 serial_write(b'from hub import port')
 
-
 ##
 ##
 ## Config Client
@@ -60,29 +72,20 @@ client = Client(configuration={"base_url": base,
 print('client configured')
 
 url = input('What is the url of your Onshape assembly? ')
-defaultPorts = input('Is your motor in port A? [y/n]: ')
+defaultPorts = input('Would you like to use the Accelerometer X to control the mate? [y/n]: ')
 if defaultPorts == "y":
     motor1Port = 'A'
     sensor1Port = 'B'
 else:
-    motor1Port = input('What port is the motor in? ')
     sensor1Port = input('What port is the sensor in? ')
 
-controlMode = input('Would you like your assembly mate to control the speed or position of the motor? [speed/position]: ')
-def posControl(pos):
-    controlString = 'hub.port.'+motor1Port+'.motor.run_to_position('+pos+',speed=50)'
-    return controlString
-def speedControl(speed):
-    controlString = 'hub.port.'+motor1Port+'.pwm('+speed+')'
-    return controlString
-
-defaultMates = input('Do you have a mate in your assembly named "Control"? [y/n]: ')
+defaultMates = input('Are your mates named "Control" and "Monitor"? [y/n]: ')
 if defaultMates == "y":
     controlMate = 'Control'
     monitorMate = 'Monitor'
 else:
     controlMate = input('What is the name of the mate you want to control?')
-    # monitorMate = input('What is the name of the mate you want to use as a monitor?')
+    monitorMate = input('What is the name of the mate you want to use as a monitor?')
 
 mates = getMates(client,url,base)
 for names in mates['mateValues']:
@@ -93,21 +96,17 @@ for names in mates['mateValues']:
 
 try:
     while True:
+        accel = serial_write(b'hub.motion.accelerometer()')
         mates = getMates(client,url,base)
         for names in mates['mateValues']:
-            if names['mateName'] == controlMate:
+            if names['mateName'] == monitorMate:
+                setMateJSON = names
                 if names['jsonType'] == "Revolute":
-                    pos = str(math.floor(translate(names['rotationZ'],0,math.pi,180,0)))
-                    speed = str(math.floor(translate(names['rotationZ'],0,2*math.pi,0,255)))
+                    setMateJSON['rotationZ'] = translate(accel[0],-1024,1024,0,2*math.pi)
                 elif names['jsonType'] == "Slider":
-                    pos = str(math.floor(translate(names['translationZ'],0,math.pi,180,0)))
-                    speed = str(math.floor(translate(names['translationZ'],0,2*math.pi,0,100)))
-        if controlMode == "position":
-            string = posControl(pos)
-        elif controlMode == "speed":
-            string = speedControl(speed)
-        serial_write(string.encode())
-        time.sleep(2)
+                    setMateJSON['translationZ'] = translate(accel[0],-1024,1024,0,1)
+        setMates(client,url,base,{'mateValues':[setMateJSON]})
+        time.sleep(1)
 except KeyboardInterrupt:
     controlString = 'hub.port.'+motor1Port+'.pwm(0)'
     serial_write(controlString.encode())
