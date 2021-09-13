@@ -147,15 +147,15 @@ try:
             time.sleep(1)
         elif monitorMode == "ultrasonic":
             monitorValue = serial_write(b'dist_sensor.get()')
-            print('accelerometer value: ' + str(monitorValue[0]))
+            print('ultrasonic sensor value: ' + str(monitorValue[0]))
             mates = getMates(client,url,base)
             for names in mates['mateValues']:
                 if names['mateName'] == monitorMate:
                     setMateJSON = names
                     if names['jsonType'] == "Revolute":
-                        setMateJSON['rotationZ'] = translate(monitorValue[0],0,1024,0,2*math.pi)
+                        setMateJSON['rotationZ'] = translate(monitorValue[0],0,100,0,2*math.pi)
                     elif names['jsonType'] == "Slider":
-                        setMateJSON['translationZ'] = translate(monitorValue[0],0,1024,0,1)
+                        setMateJSON['translationZ'] = translate(monitorValue[0],0,100,0,1)
             setMates(client,url,base,{'mateValues':[setMateJSON]})
             time.sleep(1)
 except KeyboardInterrupt:

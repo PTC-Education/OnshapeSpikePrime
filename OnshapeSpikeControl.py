@@ -79,18 +79,18 @@ except:
                                     "secret_key": secret})
         print('client configured')
 
-url = input('What is the url of your Onshape assembly? ')
+url = str(input('What is the url of your Onshape assembly? (bug: may need to press enter twice) '))
 
 ## Bug - url input does not continue after copy paste. placeholder fix for now
-placeholder = input('Press enter to begin configuring bindings to Spike Prime')
+placeholder = input()
 
 defaultPorts = input('Is your motor in port A? [y/n]: ')
 if defaultPorts == "y":
     motor1Port = 'A'
-    sensor1Port = 'B'
+    # sensor1Port = 'B'
 else:
     motor1Port = input('What port is the motor in? ')
-    sensor1Port = input('What port is the sensor in? ')
+    # sensor1Port = input('What port is the sensor in? ')
 
 controlMode = input('Would you like your assembly mate to control the speed or position of the motor? [speed/position]: ')
 def posControl(pos):
