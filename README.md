@@ -24,16 +24,12 @@ pip install pyserial
 
 ## Using Python Scripts
 
-Run the file from terminal or command prompt by typing
+Run the file from terminal or command prompt by typing the following commands
 ```
 python OnshapeSpikeControl.py
 python OnshapeSpikeMonitor.py
 ```
-or (depending on how your python versions are configured)
-```
-python3 OnshapeSpikeControl.py
-python3 OnshapeSpikeMonitor.py
-```
+**Note**: depending on how python is configured or if you're using windows, you may have to replace the "python" command with "python3" or "py"
 
 If you see an output saying "resource busy", unplug and replug the usb cord, then run the script again. If the script does not execute the first time, try again.
 
