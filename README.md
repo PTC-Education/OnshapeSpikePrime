@@ -28,3 +28,5 @@ or
 ```
 python OnshapeSpikeMonitor.py
 ```
+
+You can stop execution of the script at any time by pressing Control-C.
