@@ -1,4 +1,5 @@
 # OnshapeSpikePrime
+This repo provides python scripts that allow you to create digital twins for monitoring and controlling a LEGO Spike Prime robot connected to the USB port.
 
 ## Assembly Setup
 Right now, only revolute mates and slider mates are supported by these scripts. In your Onshape assembly, you should rename the mates to either "Control" or "Monitor" to use them as inputs for motion on the Spike Prime, or monitors for the sensors on the Spike Prime.
