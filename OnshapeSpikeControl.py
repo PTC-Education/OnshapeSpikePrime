@@ -81,6 +81,7 @@ except:
         print('client configured')
 
 url = input('What is the url of your Onshape assembly? ')
+
 defaultPorts = input('Is your motor in port A? [y/n]: ')
 if defaultPorts == "y":
     motor1Port = 'A'

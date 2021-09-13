@@ -19,6 +19,7 @@ from onshape_client.onshape_url import OnshapeElement
 def serial_ports():
     if sys.platform.startswith('win'):
         ports = ['COM%s' % (i + 1) for i in range(256)]
+        print(ports)
     elif sys.platform.startswith('darwin'):
         ports = glob.glob('/dev/tty.*')
         for port in ports:
