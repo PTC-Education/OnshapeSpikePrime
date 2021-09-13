@@ -52,12 +52,33 @@ serial_write(b'from hub import port')
 ##
 ##
 ## Config Client
-exec(open('../../colabkeys.py').read())
-base = 'https://cad.onshape.com'
-client = Client(configuration={"base_url": base,
-                            "access_key": access,
-                            "secret_key": secret})
-print('client configured')
+try:
+    exec(open('../../apikeys.py').read())
+    base = 'https://cad.onshape.com'
+    client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+    print('client configured')
+except:
+    keyConfig = input('api keys not found, would you like to import keys from a file? [y/n]: ')
+    if keyConfig == "y":
+        root = tk.Tk()
+        root.withdraw()
+        file_path = filedialog.askopenfilename()
+        exec(open(file_path).read())
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
+    else:
+        access = input('Please enter your access key: ')
+        secret = input('Please enter your secret key: ')
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
 
 url = input('What is the url of your Onshape assembly? ')
 defaultPorts = input('Is your motor in port A? [y/n]: ')
