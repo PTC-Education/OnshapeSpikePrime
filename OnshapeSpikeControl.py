@@ -2,8 +2,8 @@ from OnshapePlus import *
 
 ## Initialize connection to Spike
 port = serial_ports()
-print('port: ')
-print([port])
+# print('port: ')
+# print([port])
 
 
 def serial_write(string):

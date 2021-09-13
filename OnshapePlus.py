@@ -40,7 +40,7 @@ def serial_ports():
             result.append(port)
         except (OSError, serial.SerialException):
             pass
-    return ports
+    return result
 
 ##
 ##
