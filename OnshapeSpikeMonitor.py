@@ -99,7 +99,7 @@ except:
         print('client configured')
 
 # print()
-url = str(input('What is the url of your Onshape assembly? (bug: may need to press enter twice) '))
+url = str(input('What is the url of your Onshape assembly? (paste URL then press enter twice): '))
 
 ## Bug - url input does not continue after copy paste. placeholder fix for now
 placeholder = input()

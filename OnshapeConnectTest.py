@@ -5,22 +5,20 @@ from OnshapePlus import *
 ## Config Client
 
 try:
-    exec(open('../apikeys.py').read())
-    base = 'https://cad.onshape.com'
-    client = Client(configuration={"base_url": base,
-                                "access_key": access,
-                                "secret_key": secret})
-    print('client configured')
-except:
-    pass
-
-try:
-    exec(open('apikeys.py').read())
-    base = 'https://cad.onshape.com'
-    client = Client(configuration={"base_url": base,
-                                "access_key": access,
-                                "secret_key": secret})
-    print('client configured')
+    try:
+        exec(open('../apikeys.py').read())
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
+    except:
+        exec(open('apikeys.py').read())
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
 except:
     keyConfig = input('api keys not found, would you like to import keys from a file? [y/n]: ')
     if keyConfig == "y":
@@ -49,7 +47,7 @@ except:
         print('client configured')
 
 # print()
-url = str(input('What is the url of your Onshape assembly? (bug: may need to press enter twice) '))
+url = str(input('What is the url of your Onshape assembly? (paste URL then press enter twice): '))
 
 ## Bug - url input does not continue after copy paste. placeholder fix for now
 placeholder = input()
