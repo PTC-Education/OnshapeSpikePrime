@@ -12,6 +12,16 @@ try:
                                 "secret_key": secret})
     print('client configured')
 except:
+    pass
+
+try:
+    exec(open('/apikeys.py').read())
+    base = 'https://cad.onshape.com'
+    client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+    print('client configured')
+except:
     keyConfig = input('api keys not found, would you like to import keys from a file? [y/n]: ')
     if keyConfig == "y":
         root = tk.Tk()
