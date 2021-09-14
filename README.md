@@ -20,7 +20,7 @@ In this folder, you must import some python libraries by running the following c
 ```
 pip install onshape-client
 pip install pyserial
-pip install tkinter
+pip install tk
 ```
 
 ## Using Python Scripts
