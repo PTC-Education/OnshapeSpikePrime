@@ -52,11 +52,9 @@ def serial_ports():
 ##
 ##
 
-def configClientWithFile():
-    try:
-        exec(open('../apikeys.py').read())
-    except:
-        exec(open('apikeys.py').read())
+def configClientWithKeys():
+    access = input("what is your access key?: ")
+    secret = input("what is your secret key?: ")
     base = 'https://cad.onshape.com'
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
