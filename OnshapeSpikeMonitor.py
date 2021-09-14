@@ -50,6 +50,7 @@ except:
     print("Port is open again")
 
 print(ser.isOpen())
+time.sleep(1)
 
 ## Beep if connected
 ser.write(b'\x03')
