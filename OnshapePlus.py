@@ -9,7 +9,7 @@ try:
     import tkinter as tk
     from tkinter import filedialog
 except:
-    pass
+    print('tkinter not installed - cannot import apikeys from file with gui')
 
 from onshape_client.client import Client
 from onshape_client.onshape_url import OnshapeElement
