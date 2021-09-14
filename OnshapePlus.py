@@ -127,7 +127,8 @@ def massProp(client, url: str, base):
   fixed_url = fixed_url.replace('eid', element.eid)
 
   response = client.api_client.request(method, url=base + fixed_url, query_params=params, headers=headers, body=payload)
-
+  print(response.status)
+  print(response.data)
   parsed = json.loads(response.data)
   # The command below prints the entire JSON response from Onshape
   print(json.dumps(parsed, indent=4, sort_keys=True))
