@@ -15,7 +15,7 @@ except:
     pass
 
 try:
-    exec(open('/apikeys.py').read())
+    exec(open('apikeys.py').read())
     base = 'https://cad.onshape.com'
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
