@@ -16,10 +16,11 @@ After cloning this repo, go into the new folder that was created by typing
 ```
 cd OnshapeSpikePrime
 ```
-In this folder, you must import some python libraries by running the following commands
+In this folder, you must import some python libraries by running the following commands. **note** you may need to do "pip3 install ..." depending on how your python version is configured.
 ```
 pip install onshape-client
 pip install pyserial
+pip install tkinter
 ```
 
 ## Using Python Scripts
