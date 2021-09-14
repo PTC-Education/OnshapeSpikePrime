@@ -5,8 +5,11 @@ import serial
 import sys
 import glob
 import json
-import tkinter as tk
-from tkinter import filedialog
+try:
+    import tkinter as tk
+    from tkinter import filedialog
+except:
+    pass
 
 from onshape_client.client import Client
 from onshape_client.onshape_url import OnshapeElement
