@@ -53,7 +53,10 @@ def serial_ports():
 ##
 
 def configClientWithFile():
-    exec(open('../../colabkeys.py').read())
+    try:
+        exec(open('../apikeys.py').read())
+    except:
+        exec(open('apikeys.py').read())
     base = 'https://cad.onshape.com'
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
