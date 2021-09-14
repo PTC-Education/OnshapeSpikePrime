@@ -30,6 +30,7 @@ try:
         stopbits=serial.STOPBITS_ONE,
         bytesize=serial.EIGHTBITS
     )
+    print("Port is open")
 except:
     serial.Serial(
         port=port,

@@ -43,6 +43,7 @@ def serial_ports():
             result.append(port)
         except (OSError, serial.SerialException):
             pass
+    print('port found:'+result[0])
     return result[0]
 
 ##
