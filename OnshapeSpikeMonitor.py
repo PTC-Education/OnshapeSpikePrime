@@ -67,12 +67,20 @@ serial_write(b'from hub import port')
 ## Config Client
 
 try:
-    exec(open('../apikeys.py').read())
-    base = 'https://cad.onshape.com'
-    client = Client(configuration={"base_url": base,
-                                "access_key": access,
-                                "secret_key": secret})
-    print('client configured')
+    try:
+        exec(open('../apikeys.py').read())
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
+    except:
+        exec(open('apikeys.py').read())
+        base = 'https://cad.onshape.com'
+        client = Client(configuration={"base_url": base,
+                                    "access_key": access,
+                                    "secret_key": secret})
+        print('client configured')
 except:
     keyConfig = input('api keys not found, would you like to import keys from a file? [y/n]: ')
     if keyConfig == "y":
