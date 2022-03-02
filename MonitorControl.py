@@ -185,7 +185,7 @@ try:
                     elif names['jsonType'] == "Slider":
                         setMateJSON['translationZ'] = translate(monitorValue[0],-1024,1024,0,1)
             setMates(client,url,base,{'mateValues':[setMateJSON]})
-            time.sleep(1)
+            # time.sleep(1)
         elif monitorMode == "ultrasonic":
             monitorValue = serial_write(b'dist_sensor.get()')
             try:
@@ -200,7 +200,7 @@ try:
                 setMates(client,url,base,{'mateValues':[setMateJSON]})
             except:
                 print('ultrasonic sensor did not give a value')
-            time.sleep(1)
+            # time.sleep(1)
 except KeyboardInterrupt:
     controlString = 'hub.port.'+motor1Port+'.pwm(0)'
     serial_write(controlString.encode())
