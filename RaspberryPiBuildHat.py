@@ -91,9 +91,11 @@ try:
                     pos = math.floor(translate(names['translationZ'],0,math.pi,180,0))
                     speed = math.floor(translate(names['translationZ'],0,2*math.pi,0,100))
         if controlMode == "position":
-            string = posControl(pos)
+            print('Control pos = '+str(pos))
+            posControl(pos)
         elif controlMode == "speed":
-            string = speedControl(speed)
+            print('Control speed = '+str(speed))
+            speedControl(speed)
         time.sleep(1)
 except KeyboardInterrupt:
     motor.stop()
