@@ -18,12 +18,19 @@ cd OnshapeSpikePrime
 ```
 In this folder, you must import some python libraries by running the following commands. **note** you may need to do "pip3 install ..." depending on how your python version is configured.
 ```
-pip install onshape-client
-pip install pyserial
-pip install tk
+pip3 install -r requirements.txt
 ```
 
-## Using Python Scripts
+## Configuration
+
+You will need to generate API Keys from the [Onshape Developer Portal](https://dev-portal.onshape.com/). You can add these to a file named "apikeys.py" that lives in the OnshapeSpikePrime folder or one level higher (these API keys have been deleted and are only there for demo purposes). **Make sure you never share these with anybody!!**
+```
+base = 'https://ptc.onshape.com' ## only need to specify base if different than "https://cad.onshape.com"
+access = 'Z97asb1257FkEwzp3EmCpa'
+secret = 'nHwN3q7asdvg4aryFC9rxYyo9U4o415WokYa8VOQ9YfUh4Zx'
+```
+
+## Using Python Scripts for USB Connection to Spike Prime Hub
 
 Run the file from terminal or command prompt by typing the following commands
 ```
