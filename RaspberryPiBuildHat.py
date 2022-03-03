@@ -85,11 +85,11 @@ try:
         for names in mates['mateValues']:
             if names['mateName'] == controlMate:
                 if names['jsonType'] == "Revolute":
-                    pos = str(math.floor(translate(names['rotationZ'],0,math.pi,180,0)))
-                    speed = str(math.floor(translate(names['rotationZ'],0,2*math.pi,0,255)))
+                    pos = math.floor(translate(names['rotationZ'],0,math.pi,180,0))
+                    speed = math.floor(translate(names['rotationZ'],0,2*math.pi,0,255))
                 elif names['jsonType'] == "Slider":
-                    pos = str(math.floor(translate(names['translationZ'],0,math.pi,180,0)))
-                    speed = str(math.floor(translate(names['translationZ'],0,2*math.pi,0,100)))
+                    pos = math.floor(translate(names['translationZ'],0,math.pi,180,0))
+                    speed = math.floor(translate(names['translationZ'],0,2*math.pi,0,100))
         if controlMode == "position":
             string = posControl(pos)
         elif controlMode == "speed":
