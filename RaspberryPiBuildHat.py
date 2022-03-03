@@ -7,7 +7,11 @@ from buildhat import Motor
 try:
     try:
         exec(open('../apikeys.py').read())
-        base = 'https://cad.onshape.com'
+        try:
+            print("Base URL defined as " + base)
+        except:
+            print("Base URL not specified, defaulting to https://cad.onshape.com")
+            base = 'https://cad.onshape.com'
         client = Client(configuration={"base_url": base,
                                     "access_key": access,
                                     "secret_key": secret})
@@ -20,25 +24,14 @@ try:
                                     "secret_key": secret})
         print('client configured')
 except:
-    keyConfig = input('api keys not found, would you like to import keys from a file? [y/n]: ')
-    if keyConfig == "y":
-        root = tk.Tk()
-        root.withdraw()
-        file_path = filedialog.askopenfilename()
-        exec(open(file_path).read())
-        base = 'https://cad.onshape.com'
-        client = Client(configuration={"base_url": base,
-                                    "access_key": access,
-                                    "secret_key": secret})
-        print('client configured')
-    else:
-        access = input('Please enter your access key: ')
-        secret = input('Please enter your secret key: ')
-        base = input('Please enter your base URL (e.g. "https://cad.onshape.com"): ')
-        client = Client(configuration={"base_url": base,
-                                    "access_key": access,
-                                    "secret_key": secret})
-        print('client configured')
+    print("apikeys file not found, please enter them manually.")
+    access = input('Please enter your access key: ')
+    secret = input('Please enter your secret key: ')
+    base = input('Please enter your base URL (e.g. "https://cad.onshape.com"): ')
+    client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+    print('client configured')
 
 url = str(input('What is the url of your Onshape assembly? (paste URL then press enter twice): '))
 
@@ -101,9 +94,7 @@ try:
             string = posControl(pos)
         elif controlMode == "speed":
             string = speedControl(speed)
-        print("Run for degrees - 180")
-        motor.run_for_degrees(180)
-        time.sleep(3)
+        time.sleep(1)
 except KeyboardInterrupt:
     motor.stop()
     print('done')
