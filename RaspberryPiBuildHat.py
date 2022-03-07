@@ -1,47 +1,40 @@
+## Import custom Onshape library of functions
+from turtle import distance
 from OnshapePlus import *
-from buildhat import Motor
+## Import any necessary libraries for buildhat
+from buildhat import Motor, DistanceSensor
+
 
 ##
+## Config API Client
 ##
-## Config Client
+
+## Best practice is to add you API keys and base URL to a separate file named "apikeys.py" in the folder
 try:
+    exec(open('../apikeys.py').read())
     try:
-        exec(open('../apikeys.py').read())
-        try:
-            print("Base URL defined as " + base)
-        except:
-            print("Base URL not specified, defaulting to https://cad.onshape.com")
-            base = 'https://cad.onshape.com'
-        client = Client(configuration={"base_url": base,
-                                    "access_key": access,
-                                    "secret_key": secret})
-        print('client configured')
+        print("Base URL defined as " + base)
     except:
-        exec(open('apikeys.py').read())
+        print("Base URL not specified, defaulting to https://cad.onshape.com")
         base = 'https://cad.onshape.com'
-        client = Client(configuration={"base_url": base,
-                                    "access_key": access,
-                                    "secret_key": secret})
-        print('client configured')
-except:
-    print("apikeys file not found, please enter them manually.")
-    access = input('Please enter your access key: ')
-    secret = input('Please enter your secret key: ')
-    base = input('Please enter your base URL (e.g. "https://cad.onshape.com"): ')
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
                                 "secret_key": secret})
     print('client configured')
 
-url = str(input('What is the url of your Onshape assembly? (paste URL then press enter twice): '))
+## If keys are not in separate file, you can input them directly here, but make sure you never share this file
+except:
+    access = "<access key>"
+    secret = "<secret key>"
+    base = "https://cad.onshape.com" ## Change base url if working in an enterprise
+    client = Client(configuration={"base_url": base,
+                                "access_key": access,
+                                "secret_key": secret})
+    print('client configured')
 
-## Bug - url input does not continue after copy paste. placeholder fix for now
-placeholder = input()
-
 ##
+## define buildhat functions and params
 ##
-##
-## define buildhat functions
 def handle_motor(speed, pos, apos):
     print("Motor", speed, pos, apos)
 
@@ -52,50 +45,70 @@ def speedControl(speed):
     motor.set_default_speed(speed)
     motor.start()
 
-defaultPorts = input('Is your motor in port A? [y/n]: ')
-if defaultPorts == "y":
-    motor = Motor('A')
-    motor.when_rotated = handle_motor
-    motor.set_default_speed(50)
-    # sensor1Port = 'B'
-else:
-    motor1Port = input('What port is the motor in? ')
-    # sensor1Port = input('What port is the sensor in? ')
+## Chage motor port if different or comment out if not using a motor
+motor = Motor('A')
+motor.when_rotated = handle_motor
+motor.set_default_speed(50)
 
-controlMode = input('Would you like your assembly mate to control the speed or position of the motor? [speed/position]: ')
+## Chage sensor port if different and make sure you are using the correct sensor code for buildhat
+dist = DistanceSensor('B')
 
-defaultMates = input('Do you have a mate in your assembly named "Control"? [y/n]: ')
-if defaultMates == "y":
-    controlMate = 'Control'
-    monitorMate = 'Monitor'
-else:
-    controlMate = input('What is the name of the mate you want to control?')
-    # monitorMate = input('What is the name of the mate you want to use as a monitor?')
+
+##
+## Specify Onshape funcitons and parameters
+##
+
+## Change URL to be your Assmelby
+url = "https://rogers.onshape.com/documents/a77394b9ba5137d73e469838/w/777a0833ba8f13c86be92c64/e/f211c2e72faad8ab59387b14"
+
+## What is the name of the mate you want to use to control a motor?
+controlMate = 'Control'
+## What is the name of the mate you want to use to monitor a sensor input?
+monitorMate = 'Monitor'
 
 mates = getMates(client,url,base)
 for names in mates['mateValues']:
     print(names['mateName'])
 
-# controlMate = input('What is the name of the mate you want to control your Spike with? ')
-# monitorMate = input('What mate do you want the Spike to control? ')
 
 try:
     while True:
+        ##
+        ## The part where you control a motor with an Onshape Assembly Mate
+        ##
+
+        ## First get the mate value and map it to the value you really want
         mates = getMates(client,url,base)
         for names in mates['mateValues']:
             if names['mateName'] == controlMate:
                 if names['jsonType'] == "Revolute":
                     pos = math.floor(translate(names['rotationZ'],0,math.pi,180,0))
-                    speed = math.floor(translate(names['rotationZ'],0,2*math.pi,0,255))
+                    speed = math.floor(translate(names['rotationZ'],0,2*math.pi,0,100))
                 elif names['jsonType'] == "Slider":
-                    pos = math.floor(translate(names['translationZ'],0,math.pi,180,0))
-                    speed = math.floor(translate(names['translationZ'],0,2*math.pi,0,100))
-        if controlMode == "position":
-            print('Control pos = '+str(pos))
-            posControl(pos)
-        elif controlMode == "speed":
-            print('Control speed = '+str(speed))
-            speedControl(speed)
+                    pos = math.floor(translate(names['translationZ'],0,2,180,0))
+                    speed = math.floor(translate(names['translationZ'],0,2,0,100))
+        ## Send the value to the motor
+        posControl(pos)
+
+        ##
+        ## The part where you control an Onshape Assembly Mate with a sensor value
+        ##
+
+        ## Get sensor value from buildhat
+        monitorValue = dist.get_distance()
+
+        ## Look for mate name you want to control and set body of API request
+        for names in mates['mateValues']:
+            if names['mateName'] == monitorMate:
+                setMateJSON = names
+                if names['jsonType'] == "Revolute":
+                    setMateJSON['rotationZ'] = translate(monitorValue[0],-1024,1024,0,2*math.pi)
+                elif names['jsonType'] == "Slider":
+                    setMateJSON['translationZ'] = translate(monitorValue[0],-1024,1024,0,1)
+        
+        ## Send to Onshape
+        setMates(client,url,base,{'mateValues':[setMateJSON]})
+
         time.sleep(1)
 except KeyboardInterrupt:
     motor.stop()
