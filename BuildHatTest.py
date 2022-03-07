@@ -1,4 +1,4 @@
-from buildhat import Motor
+from buildhat import Motor, DistanceSensor
 from OnshapePlus import *
 
 ##
@@ -18,6 +18,9 @@ def speedControl(speed):
 motor = Motor('A')
 motor.when_rotated = handle_motor
 motor.set_default_speed(50)
+
+dist = DistanceSensor('B')
+print(dist.get_distance())
 
 posControl(100)
 time.sleep(2)

@@ -87,6 +87,8 @@ try:
                 elif names['jsonType'] == "Slider":
                     pos = math.floor(translate(names['translationZ'],0,2,180,0))
                     speed = math.floor(translate(names['translationZ'],0,2,0,100))
+        
+        print("getMateValue = "+str(pos))
         ## Send the value to the motor
         posControl(pos)
 
@@ -106,6 +108,7 @@ try:
                 elif names['jsonType'] == "Slider":
                     setMateJSON['translationZ'] = translate(monitorValue[0],-1024,1024,0,1)
         
+        print("setMateValue = "+str(setMateJSON))
         ## Send to Onshape
         setMates(client,url,base,{'mateValues':[setMateJSON]})
 
