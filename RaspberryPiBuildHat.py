@@ -1,7 +1,7 @@
 ## Import custom Onshape library of functions
-from turtle import distance
 from OnshapePlus import *
 ## Import any necessary libraries for buildhat
+print("importing buildhat libraries...")
 from buildhat import Motor, DistanceSensor
 
 
@@ -20,7 +20,7 @@ try:
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
                                 "secret_key": secret})
-    print('client configured')
+    print('Onshape client configured')
 
 ## If keys are not in separate file, you can input them directly here, but make sure you never share this file
 except:
@@ -30,7 +30,7 @@ except:
     client = Client(configuration={"base_url": base,
                                 "access_key": access,
                                 "secret_key": secret})
-    print('client configured')
+    print('Onshape client configured')
 
 ##
 ## define buildhat functions and params
@@ -104,9 +104,9 @@ try:
             if names['mateName'] == monitorMate:
                 setMateJSON = names
                 if names['jsonType'] == "Revolute":
-                    setMateJSON['rotationZ'] = translate(monitorValue[0],-1024,1024,0,2*math.pi)
+                    setMateJSON['rotationZ'] = translate(monitorValue,-1024,1024,0,2*math.pi)
                 elif names['jsonType'] == "Slider":
-                    setMateJSON['translationZ'] = translate(monitorValue[0],-1024,1024,0,1)
+                    setMateJSON['translationZ'] = translate(monitorValue,-1024,1024,0,1)
         
         print("setMateValue = "+str(setMateJSON))
         ## Send to Onshape
