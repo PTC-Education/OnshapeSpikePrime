@@ -107,8 +107,8 @@ try:
                     setMateJSON['rotationZ'] = translate(monitorValue,0,200,0,2*math.pi)
                     print("setMateValue = "+str(translate(monitorValue,0,200,0,2*math.pi)))
                 elif names['jsonType'] == "Slider":
-                    setMateJSON['translationZ'] = translate(monitorValue,0,200,0,1)
-                    print("setMateValue = "+str(translate(monitorValue,0,200,0,1)))
+                    setMateJSON['translationZ'] = translate(monitorValue,0,200,0,0.1)
+                    print("setMateValue = "+str(translate(monitorValue,0,200,0,0.1)))
         
         ## Send to Onshape
         setMates(client,url,base,{'mateValues':[setMateJSON]})
