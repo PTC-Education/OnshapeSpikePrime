@@ -103,11 +103,11 @@ try:
                 setMateJSON = names
                 ## Modify the translate to map sensor values to Onshape mate values
                 if names['jsonType'] == "Revolute":
-                    setMateJSON['rotationZ'] = translate(monitorValue,-1024,1024,0,2*math.pi)
-                    print("setMateValue = "+str(translate(monitorValue,-1024,1024,0,2*math.pi)))
+                    setMateJSON['rotationZ'] = translate(monitorValue,0,200,0,2*math.pi)
+                    print("setMateValue = "+str(translate(monitorValue,0,200,0,2*math.pi)))
                 elif names['jsonType'] == "Slider":
-                    setMateJSON['translationZ'] = translate(monitorValue,-1024,1024,0,1)
-                    print("setMateValue = "+str(translate(monitorValue,-1024,1024,0,1)))
+                    setMateJSON['translationZ'] = translate(monitorValue,0,200,0,1)
+                    print("setMateValue = "+str(translate(monitorValue,0,200,0,1)))
         
         ## Send to Onshape
         setMates(client,url,base,{'mateValues':[setMateJSON]})
