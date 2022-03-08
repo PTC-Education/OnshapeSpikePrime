@@ -82,8 +82,9 @@ try:
         for names in mates['mateValues']:
             if names['mateName'] == controlMate:
                 ## Modify the translate to map range of Onshape mate values to motor control value
+                print("mate value = "+str(names['rotationZ']))
                 if names['jsonType'] == "Revolute":
-                    pos = math.floor(translate(names['rotationZ'],0,2*math.pi,-180,180))
+                    pos = math.floor(translate(names['rotationZ'],0,math.pi,0,180))
                 elif names['jsonType'] == "Slider":
                     pos = math.floor(translate(names['translationZ'],0,2,180,0))
         
