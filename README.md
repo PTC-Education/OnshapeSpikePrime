@@ -23,7 +23,7 @@ pip3 install -r requirements.txt
 
 ## Configuration
 
-You will need to generate API Keys from the [Onshape Developer Portal](https://dev-portal.onshape.com/). You can add these to a file named "apikeys.py" that lives in the OnshapeSpikePrime folder or one level higher (these API keys have been deleted and are only there for demo purposes). **Make sure you never share these with anybody!!**
+You will need to generate API Keys from the [Onshape Developer Portal](https://dev-portal.onshape.com/). You can add these to a file named "apikeys.py" that lives in the same folder as the OnshapeSpikePrime folder (these API keys have been deleted and are only there for demo purposes). **Make sure you never share these with anybody!!**
 ```
 base = 'https://ptc.onshape.com' ## only need to specify base if different than "https://cad.onshape.com"
 access = 'Z97asb1257FkEwzp3EmCpa'
