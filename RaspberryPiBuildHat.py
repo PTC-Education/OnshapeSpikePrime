@@ -47,8 +47,9 @@ def speedControl(speed):
 
 ## Chage motor port if different or comment out if not using a motor
 motor = Motor('A')
-motor.when_rotated = handle_motor
 motor.set_default_speed(50)
+
+# motor.when_rotated = handle_motor ## unocomment to get read out whenever the motor moves
 
 ## Chage sensor port if different and make sure you are using the correct sensor code for buildhat
 dist = DistanceSensor('B')
@@ -76,26 +77,23 @@ try:
         ##
         ## The part where you control a motor with an Onshape Assembly Mate
         ##
-
         ## First get the mate value and map it to the value you really want
         mates = getMates(client,url,base)
         for names in mates['mateValues']:
             if names['mateName'] == controlMate:
+                ## Modify the translate to map range of Onshape mate values to motor control value
                 if names['jsonType'] == "Revolute":
                     pos = math.floor(translate(names['rotationZ'],0,math.pi,180,0))
-                    speed = math.floor(translate(names['rotationZ'],0,2*math.pi,0,100))
                 elif names['jsonType'] == "Slider":
                     pos = math.floor(translate(names['translationZ'],0,2,180,0))
-                    speed = math.floor(translate(names['translationZ'],0,2,0,100))
         
         print("getMateValue = "+str(pos))
         ## Send the value to the motor
-        posControl(pos)
+        posControl(pos) ## Bug - buildhat only supports values from -180 to 180 for send to position
 
         ##
         ## The part where you control an Onshape Assembly Mate with a sensor value
         ##
-
         ## Get sensor value from buildhat
         monitorValue = dist.get_distance()
 
@@ -103,12 +101,14 @@ try:
         for names in mates['mateValues']:
             if names['mateName'] == monitorMate:
                 setMateJSON = names
+                ## Modify the translate to map sensor values to Onshape mate values
                 if names['jsonType'] == "Revolute":
                     setMateJSON['rotationZ'] = translate(monitorValue,-1024,1024,0,2*math.pi)
+                    print("setMateValue = "+str(translate(monitorValue,-1024,1024,0,2*math.pi)))
                 elif names['jsonType'] == "Slider":
                     setMateJSON['translationZ'] = translate(monitorValue,-1024,1024,0,1)
+                    print("setMateValue = "+str(translate(monitorValue,-1024,1024,0,1)))
         
-        print("setMateValue = "+str(setMateJSON))
         ## Send to Onshape
         setMates(client,url,base,{'mateValues':[setMateJSON]})
 
